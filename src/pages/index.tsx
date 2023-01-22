@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 import { Client } from "@livepeer/webrtmp-sdk";
 
 import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Transition, Listbox } from '@headlessui/react'
 import {
   Bars3Icon,
   CalendarIcon,
@@ -17,7 +17,9 @@ import {
   InboxIcon,
   UsersIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
+  CheckIcon, 
+  ChevronUpDownIcon
+} from '@heroicons/react/20/solid'
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -25,12 +27,19 @@ const navigation = [
   { name: 'Training history', href: '#', icon: CalendarIcon, current: false },
 ]
 
+const tricks = [
+  { id: 1, name: 'sit' },
+  { id: 2, name: 'down' },
+  { id: 3, name: 'give paw' },
+  { id: 4, name: 'do my taxes' },
+]
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function App() {
-  const inputEl = useRef(null);
+  /*const inputEl = useRef(null);
   const videoEl = useRef(null);
   const stream = useRef(null);
 
@@ -76,9 +85,10 @@ function App() {
     session.on("error", (err) => {
       console.log("Stream error.", err.message);
     });
-  };
+  };*/
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selected, setSelected] = useState(tricks[3])
 
   return (
     <div className="App">
@@ -134,9 +144,8 @@ function App() {
                   <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                     <div className="flex flex-shrink-0 items-center px-4">
                       <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300"
-                        alt="Your Company"
+                        className="w-50 h-auto"
+                        src='/favicon.svg'
                       />
                     </div>
                     <nav className="mt-5 space-y-1 px-2">
@@ -188,13 +197,7 @@ function App() {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex min-h-0 flex-1 flex-col bg-indigo-700">
             <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-              <div className="flex flex-shrink-0 items-center px-4">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300"
-                  alt="Your Company"
-                />
-              </div>
+              <img className="logo flex w-1/2" src="/favicon.png"/>
               <nav className="mt-5 flex-1 space-y-1 px-2">
                 {navigation.map((item) => (
                   <a
@@ -248,45 +251,83 @@ function App() {
                 <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
               </div>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-                {/* STATISTICS START HERE */}
                 <div className="bg-gray-50 pt-12 sm:pt-16">
                   <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mx-auto max-w-4xl text-center">
-                      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        Trusted by developers from over 80 planets
+                    <div className="mx-auto max-w-4xl">
+                      <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
+                        Hi Alec ! <br/> <br/>
+                        <text className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                          Bigby&nbsp; 
+                        </text>
+                        is currently learning
+                        
+                        {/* COMMAND LIST STARTS HERE */}
+                        <Listbox value={selected} onChange={setSelected}>
+                          {({ open }) => (
+                            <>
+                              <div className="relative mt-1">
+                                <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                                  <span className="block truncate">{selected.name}</span>
+                                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                  </span>
+                                </Listbox.Button>
+
+                                <Transition
+                                  show={open}
+                                  as={Fragment}
+                                  leave="transition ease-in duration-100"
+                                  leaveFrom="opacity-100"
+                                  leaveTo="opacity-0"
+                                >
+                                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                    {tricks.map((person) => (
+                                      <Listbox.Option
+                                        key={person.id}
+                                        className={({ active }) =>
+                                          classNames(
+                                            active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                            'relative cursor-default select-none py-2 pl-3 pr-9'
+                                          )
+                                        }
+                                        value={person}
+                                      >
+                                        {({ selected, active }) => (
+                                          <>
+                                            <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                              {person.name}
+                                            </span>
+
+                                            {selected ? (
+                                              <span
+                                                className={classNames(
+                                                  active ? 'text-white' : 'text-indigo-600',
+                                                  'absolute inset-y-0 right-0 flex items-center pr-4'
+                                                )}
+                                              >
+                                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                              </span>
+                                            ) : null}
+                                          </>
+                                        )}
+                                      </Listbox.Option>
+                                    ))}
+                                  </Listbox.Options>
+                                </Transition>
+                              </div>
+                            </>
+                          )}
+                        </Listbox>
+                        {/* COMMAND LIST ENDS HERE */}
+
                       </h2>
-                      <p className="mt-3 text-xl text-gray-500 sm:mt-4">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus repellat laudantium.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-10 bg-white pb-12 sm:pb-16">
-                    <div className="relative">
-                      <div className="absolute inset-0 h-1/2 bg-gray-50" />
-                      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="mx-auto max-w-4xl">
-                          <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3">
-                            <div className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
-                              <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">Pepperoni</dt>
-                              <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">100%</dd>
-                            </div>
-                            <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
-                              <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">Delivery</dt>
-                              <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">24/7</dd>
-                            </div>
-                            <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
-                              <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">Calories</dt>
-                              <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">100k</dd>
-                            </div>
-                          </dl>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
-                {/* STATISTICS END HERE */}
 
-                {/* LIVESTREAM BOX STARTS HERE */}
+                
+
+                {/* LIVESTREAM BOX STARTS HERE }
                 <div className="liveStream" >
                   <input
                     className="App-input"
