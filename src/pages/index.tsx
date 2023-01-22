@@ -20,12 +20,9 @@ import {
 } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Home', href: '#', icon: HomeIcon, current: true },
+  { name: 'Profile', href: '#', icon: UsersIcon, current: false },
+  { name: 'Training history', href: '#', icon: CalendarIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -85,6 +82,8 @@ function App() {
 
   return (
     <div className="App">
+
+      {/* MAIN DASHBOARD THING */}
 
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -212,6 +211,7 @@ function App() {
                 ))}
               </nav>
             </div>
+            {/* TOM COOK - VIEW PROFILE */}
             <div className="flex flex-shrink-0 border-t border-indigo-800 p-4">
               <a href="#" className="group block w-full flex-shrink-0">
                 <div className="flex items-center">
@@ -248,28 +248,62 @@ function App() {
                 <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
               </div>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-                {/* Replace with your content */}
-                <div className="py-4">
-                  <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
+                {/* STATISTICS START HERE */}
+                <div className="bg-gray-50 pt-12 sm:pt-16">
+                  <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <div className="mx-auto max-w-4xl text-center">
+                      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                        Trusted by developers from over 80 planets
+                      </h2>
+                      <p className="mt-3 text-xl text-gray-500 sm:mt-4">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus repellat laudantium.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-10 bg-white pb-12 sm:pb-16">
+                    <div className="relative">
+                      <div className="absolute inset-0 h-1/2 bg-gray-50" />
+                      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mx-auto max-w-4xl">
+                          <dl className="rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3">
+                            <div className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+                              <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">Pepperoni</dt>
+                              <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">100%</dd>
+                            </div>
+                            <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
+                              <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">Delivery</dt>
+                              <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">24/7</dd>
+                            </div>
+                            <div className="flex flex-col border-t border-gray-100 p-6 text-center sm:border-0 sm:border-l">
+                              <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500">Calories</dt>
+                              <dd className="order-1 text-5xl font-bold tracking-tight text-indigo-600">100k</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                {/* /End replace */}
+                {/* STATISTICS END HERE */}
+
+                {/* LIVESTREAM BOX STARTS HERE */}
+                <div className="liveStream" >
+                  <input
+                    className="App-input"
+                    ref={inputEl}
+                    type="text"
+                    placeholder="streamKey"
+                  />
+                  <video className="App-video w-3/4" ref={videoEl} />
+                  <button className="App-button" onClick={onButtonClick}>
+                    Start
+                  </button>
+                </div>
+                {/* LIVESTREAM BOX ENDS HERE */}
               </div>
             </div>
           </main>
         </div>
-      </div>
-
-      <div className="liveStream">
-        <input
-          className="App-input"
-          ref={inputEl}
-          type="text"
-          placeholder="streamKey"
-        />
-        <video className="App-video" ref={videoEl} />
-        <button className="App-button" onClick={onButtonClick}>
-          Start
-        </button>
       </div>
     </div>
   );
